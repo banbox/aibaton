@@ -1,5 +1,7 @@
 # Baton
 
+[English](README.md)
+
 **Headless Agent自动化** — codex/claude CLI 的 Python 封装，基于可编程提示词实现任意复杂的agent自动化/工作流。
 
 ## 特性

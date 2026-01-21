@@ -1,5 +1,7 @@
 # Baton
 
+[中文文档](README_cn.md)
+
 **Headless Agent Automation** — Python wrapper for codex/claude CLI, enabling arbitrarily complex agent automation/workflows through programmable prompts.
 
 ## Features
