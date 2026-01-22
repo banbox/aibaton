@@ -25,7 +25,7 @@ def _write_json(path: str, data: Dict[str, Any]) -> None:
 
 def _agent_root() -> str:
     home = os.path.expanduser("~") or os.getcwd()
-    root = os.path.join(home, ".baton")
+    root = os.path.join(home, ".aibaton")
     ensure_dir(root)
     return root
 

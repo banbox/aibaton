@@ -1,4 +1,4 @@
-# Baton - AI Agent Orchestrator
+# AIBaton - AI Agent Orchestrator
 
 基于 Python 调用 codex/claude CLI，实现可编程提示词，支持复杂工作流。
 
@@ -82,7 +82,7 @@
 ## 6. 存档与会话
 
 ### 6.1 存档路径
-`~/.baton/workspaces/<sha1[:12]>/sessions/<session_id>/runs/<run_id>/`
+`~/.aibaton/workspaces/<sha1[:12]>/sessions/<session_id>/runs/<run_id>/`
 
 ### 6.2 存档文件
 - `events.jsonl` - 原始事件流

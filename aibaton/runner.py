@@ -136,7 +136,7 @@ def _should_retry_prompt_arg(events: List[Dict[str, Any]]) -> bool:
 def _build_env(cwd: Optional[str]) -> Dict[str, str]:
     env = dict(os.environ)
     if cwd:
-        if env.get("BATON_FORCE_HOME"):
+        if env.get("AIBATON_FORCE_HOME"):
             env["HOME"] = cwd
         else:
             env.setdefault("HOME", cwd)

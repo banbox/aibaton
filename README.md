@@ -1,4 +1,4 @@
-# Baton
+# AIBaton
 
 [中文文档](README_cn.md)
 
@@ -7,7 +7,7 @@
 ## Features
 
 - **Prompt-Oriented Programming** — Natural language prompts as Python code, seamlessly interact with agents
-- **Skill Support** — Use skills to convert intent into baton code, making complex tasks more controllable
+- **Skill Support** — Use skills to convert intent into aibaton code, making complex tasks more controllable
 - **Loop Detection** — Built-in iterative optimization (`loop_max`)
 - **Response Parsing** — Parse agent results with semantic options using `parse(options)`
 
@@ -24,14 +24,14 @@
 
 ## Example
 
-Install the baton SKILL using codex, then enter the following prompt:
+Install the aibaton SKILL using codex, then enter the following prompt:
 ```text
-$baton Find Go code files over 300 lines in the project and optimize them, extract redundant code into sub-functions following DRY principles, and update references in other files.
+$aibaton Find Go code files over 300 lines in the project and optimize them, extract redundant code into sub-functions following DRY principles, and update references in other files.
 ```
 
 Output executable script:
 ```python
-from baton import run, set_default
+from aibaton import run, set_default
 import os
 
 set_default(provider="codex", dangerous_permissions=True)
@@ -58,14 +58,14 @@ Run the script as prompted.
 ### More Complex Task Example
 [A complex workflow prompt](examples_en/work_flow_prompt.md)
 
-After codex uses baton skill, output executable script: [work_flow.py](examples_en/work_flow.py)
+After codex uses aibaton skill, output executable script: [work_flow.py](examples_en/work_flow.py)
 
 ## Installation
 
 ```bash
-pip install baton
+pip install aibaton
 # or
-uv pip install baton
+uv pip install aibaton
 ```
 
 ## License

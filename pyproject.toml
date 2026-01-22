@@ -1,3 +1,17 @@
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "aibaton"
+version = "0.1.0"
+description = "An agent automation framework based on Codex/Claude Code"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name = "anyongjin", email = "anyongjin163@163.com" }
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/banbox/aibaton"

@@ -1,5 +1,5 @@
 
-帮我编写一个baton自动化脚本，用于将bybit交易所对接到banexg项目中。
+帮我编写一个aibaton自动化脚本，用于将bybit交易所对接到banexg项目中。
 
 ## 项目背景
 - banexg是一个Go语言的加密货币交易所统一接口库，已支持binance、okx等交易所

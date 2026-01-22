@@ -1,4 +1,4 @@
-# Baton
+# AIBaton
 
 [English](README.md)
 
@@ -7,7 +7,7 @@
 ## 特性
 
 - **面向提示词编程** — 自然语言提示词即python代码，和agent无缝交互
-- **skill支持** — 使用skill将意图转为baton代码，复杂任务更可控
+- **skill支持** — 使用skill将意图转为aibaton代码，复杂任务更可控
 - **循环检测** — 内置ralph迭代优化(`loop_max`)
 - **响应解析** — agent结果使用`parse(options)`语义选项解析
 
@@ -24,14 +24,14 @@
 
 ## 示例
 
-使用codex安装baton SKILL，然后输入下面提示词：
+使用codex安装aibaton SKILL，然后输入下面提示词：
 ```text
-$baton 帮我查找项目中超过300行的go代码文件并优化，提取冗余代码为子函数，遵循DRY原则，并修改其他文件中引用。
+$aibaton 帮我查找项目中超过300行的go代码文件并优化，提取冗余代码为子函数，遵循DRY原则，并修改其他文件中引用。
 ```
 
 输出可执行脚本：
 ```python
-from baton import run, set_default
+from aibaton import run, set_default
 import os
 
 set_default(provider="codex", dangerous_permissions=True)
@@ -58,14 +58,14 @@ if __name__ == '__main__':
 ### 更复杂的任务示例
 [一个复杂的工作流提示词](examples_cn/work_flow_prompt.md)
 
-经过codex使用baton skill，输出可执行脚本：[work_flow.py](examples_cn/work_flow.py)
+经过codex使用aibaton skill，输出可执行脚本：[work_flow.py](examples_cn/work_flow.py)
 
 ## 安装
 
 ```bash
-pip install baton
+pip install aibaton
 # 或
-uv pip install baton
+uv pip install aibaton
 ```
 
 ## 许可证

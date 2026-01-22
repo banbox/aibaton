@@ -1,14 +1,14 @@
-from baton import run, set_default, start_process, setup_logger, logger
+from aibaton import run, set_default, start_process, setup_logger, logger
 import os
 
 """
 This workflow is an automation script for integrating the bybit exchange into banexg (a cryptocurrency exchange library).
-You can generate the current script based on the baton SKILL and work_flow_prompt.md prompt.
+You can generate the current script based on the aibaton SKILL and work_flow_prompt.md prompt.
 """
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
-setup_logger(filepath="baton.log")
+setup_logger(filepath="aibaton.log")
 set_default(provider="codex", dangerous_permissions=True, cwd=os.path.dirname(base_dir))
 
 gen_doc_index = """

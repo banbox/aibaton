@@ -1,4 +1,4 @@
-from baton import run, set_default, setup_logger
+from aibaton import run, set_default, setup_logger
 
 setup_logger(level="debug")
 set_default(provider="codex", dangerous_permissions=False)

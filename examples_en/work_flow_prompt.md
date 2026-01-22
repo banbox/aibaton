@@ -1,5 +1,5 @@
 
-Help me write a baton automation script to integrate the bybit exchange into the banexg project.
+Help me write a aibaton automation script to integrate the bybit exchange into the banexg project.
 
 ## Project Background
 - banexg is a Go language unified interface library for cryptocurrency exchanges, already supporting exchanges like binance, okx, etc.

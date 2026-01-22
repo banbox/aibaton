@@ -1,14 +1,14 @@
-from baton import run, set_default, start_process, setup_logger, logger
+from aibaton import run, set_default, start_process, setup_logger, logger
 import os
 
 """
 此工作流是用于banexg（一个加密货币交易所库）中对接bybit交易所的自动化脚本。
-您可根据baton SKILL以及work_flow_prompt.md提示词生成当前脚本。
+您可根据aibaton SKILL以及work_flow_prompt.md提示词生成当前脚本。
 """
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
-setup_logger(filepath="baton.log")
+setup_logger(filepath="aibaton.log")
 set_default(provider="codex", dangerous_permissions=True, cwd=os.path.dirname(base_dir))
 
 gen_doc_index = """

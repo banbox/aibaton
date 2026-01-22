@@ -1,6 +1,6 @@
 import unittest
 
-from baton.events import extract_text
+from aibaton.events import extract_text
 
 
 class TestEvents(unittest.TestCase):

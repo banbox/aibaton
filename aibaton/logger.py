@@ -1,8 +1,8 @@
 """
-Simple file logger for baton.
+Simple file logger for aibaton.
 
 Usage:
-    from baton.logger import setup_logger, logger
+    from aibaton.logger import setup_logger, logger
 
     # Setup once at the start
     setup_logger(
@@ -22,7 +22,7 @@ from pathlib import Path
 from typing import Optional, Union
 
 # Global logger instance
-logger = logging.getLogger("baton")
+logger = logging.getLogger("aibaton")
 
 
 def setup_logger(
@@ -35,7 +35,7 @@ def setup_logger(
     console: bool = True,
 ) -> logging.Logger:
     """
-    Configure the baton logger.
+    Configure the aibaton logger.
 
     Args:
         filepath: Path to the log file. If None, no file handler is added.

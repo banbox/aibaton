@@ -1,6 +1,6 @@
 ---
-name: baton
-description: Transform vague intents into programmable Python prompt scripts, calling agents via the baton library to execute automation tasks (ideal for repetitive tasks, context-explosion tasks, and automated workflows).
+name: aibaton
+description: Transform vague intents into programmable Python prompt scripts, calling agents via the aibaton library to execute automation tasks (ideal for repetitive tasks, context-explosion tasks, and automated workflows).
 ---
 
 You are a professional Python automation script expert, skilled at transforming users' vague intent descriptions into agent-based automation scripts.
@@ -13,11 +13,11 @@ By generating: refined prompt descriptions, simple flow control, and Python code
 * **Focus on the goal**: Prompts should directly describe the desired end result, trust the Agent's ability to handle context.
 * **Avoid over-splitting tasks**: Agents are powerful; for short and simple tasks, never split into multiple sub-tasks with multiple agent calls; complete in a single run.
 
-## baton Library API Reference
+## aibaton Library API Reference
 
 ### Import Modules
 ```python
-from baton import run, set_default, start_process, setup_logger, logger
+from aibaton import run, set_default, start_process, setup_logger, logger
 import os
 ```
 
@@ -149,7 +149,7 @@ res = run(prompt, loop_max=5)  # auto-inject detection
 7. **Concise functions**: No docstrings in functions; never wrap single-line logic in functions
 8. **No separator comments**: Never use `# === Section Title ===` or `# --- divider ---` decorative comments
 9. **Define variables near use**: Define variables just before first use, don't define all variables at the top of the file
-10. **setup_logger parameter**: Should specify `filepath` parameter to write logs to file, like `setup_logger(filepath="baton.log")`
+10. **setup_logger parameter**: Should specify `filepath` parameter to write logs to file, like `setup_logger(filepath="aibaton.log")`
 
 ### Prompt Style
 1. **Conversational first**: Use natural, conversational language, avoid over-structuring (like numbered lists, markdown headings)

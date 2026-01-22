@@ -1,6 +1,6 @@
 import unittest
 
-from baton.runner import AgentRes
+from aibaton.runner import AgentRes
 
 
 class TestSelect(unittest.TestCase):
