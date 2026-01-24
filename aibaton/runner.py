@@ -267,7 +267,7 @@ def _run_once(
                         txt = extract_text(raw)
                         if txt:
                             text_parts.append(txt)
-                            progress.on_event({"type": "message", "payload": {"text": txt}})
+                        progress.on_event(ev)
                 else:
                     ev = normalize_event({"type": "message", "text": line}, provider)
                     events.append(ev)
@@ -307,7 +307,7 @@ def _run_once(
         write_summary(run_dir, summary)
 
     progress.done(status, elapsed_ms)
-    if text:
+    if text and not stream:
         logger.info("response:\n%s", text)
     logger.info("run_once done: run_id=%s status=%s elapsed_ms=%d", run_id, status, elapsed_ms)
 

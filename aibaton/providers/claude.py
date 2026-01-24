@@ -14,7 +14,7 @@ class ClaudeProvider:
         add_dirs: Optional[List[str]],
         dangerous_permissions: bool,
     ) -> Tuple[List[str], Optional[str]]:
-        cmd = ["claude", prompt, "--print"]
+        cmd = ["claude", "--verbose", "--print"]
         if json_mode:
             cmd.extend(["--output-format", "stream-json"])
         if add_dirs:
@@ -22,6 +22,8 @@ class ClaudeProvider:
                 cmd.extend(["--add-dir", d])
         if dangerous_permissions:
             cmd.append("--dangerously-skip-permissions")
+        
+        cmd.append(prompt)
 
         # Claude prompt passed as argument
         logger.debug("claude command: %s", " ".join(cmd[:3]) + " ...")

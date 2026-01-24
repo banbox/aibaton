@@ -3,6 +3,7 @@ import locale
 import os
 import queue
 import selectors
+import signal
 import subprocess
 import threading
 import time
@@ -79,6 +80,7 @@ class ProcessHandle:
             cwd=cwd,
             env=env,
             shell=shell,
+            start_new_session=True,
         )
         logger.debug("process started: pid=%s cmd=%s", self._proc.pid, popen_cmd)
 
@@ -106,17 +108,23 @@ class ProcessHandle:
         self._set_status("killed")
         logger.debug("process killed: pid=%s", self._proc.pid)
         try:
-            self._proc.kill()
+            os.killpg(self._proc.pid, signal.SIGKILL)
         except Exception:
-            pass
+            try:
+                self._proc.kill()
+            except Exception:
+                pass
 
     def terminate(self) -> None:
         self._set_status("killed")
         logger.debug("process terminated: pid=%s", self._proc.pid)
         try:
-            self._proc.terminate()
+            os.killpg(self._proc.pid, signal.SIGTERM)
         except Exception:
-            pass
+            try:
+                self._proc.terminate()
+            except Exception:
+                pass
 
     def wait(self, timeout: Optional[float] = None) -> Optional[ProcessResult]:
         if timeout is not None and not self._done.wait(timeout):
@@ -227,11 +235,33 @@ class ProcessHandle:
         if self._proc.stderr:
             selector.register(self._proc.stderr, selectors.EVENT_READ)
 
+        timeout_triggered = False
+        graceful_deadline: Optional[float] = None
+
         while True:
-            if self._timeout_s is not None and (time.monotonic() - self._start) > self._timeout_s:
+            if self._timeout_s is not None and not timeout_triggered and (time.monotonic() - self._start) > self._timeout_s:
+                timeout_triggered = True
                 self._set_status("timeout")
-                logger.warning("process timeout: pid=%s timeout_s=%s", self._proc.pid, self._timeout_s)
-                self.kill()
+                logger.warning("process timeout: pid=%s timeout_s=%s, sending SIGTERM", self._proc.pid, self._timeout_s)
+                try:
+                    os.killpg(self._proc.pid, signal.SIGTERM)
+                except Exception:
+                    try:
+                        self._proc.terminate()
+                    except Exception:
+                        pass
+                graceful_deadline = time.monotonic() + 5.0
+
+            if graceful_deadline is not None and self._proc.poll() is None and time.monotonic() > graceful_deadline:
+                logger.warning("process did not exit gracefully, sending SIGKILL: pid=%s", self._proc.pid)
+                try:
+                    os.killpg(self._proc.pid, signal.SIGKILL)
+                except Exception:
+                    try:
+                        self._proc.kill()
+                    except Exception:
+                        pass
+                graceful_deadline = None
 
             if not selector.get_map() and self._proc.poll() is not None:
                 break
