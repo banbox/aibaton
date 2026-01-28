@@ -290,21 +290,8 @@ class ProgressPrinter:
                 return f"thinking: {truncate(first, 50)}"
             return "reasoning"
         
-        # Message - show brief content preview
+        # Message - show full content (not truncated)
         if item_type in ("agent_message", "assistant_message", "message"):
-            text = item.get("text") or ""
-            if not text:
-                content = item.get("content")
-                if isinstance(content, list) and content:
-                    first = content[0]
-                    if isinstance(first, dict):
-                        text = first.get("text", "")
-                    elif isinstance(first, str):
-                        text = first
-            if text:
-                # First line only, truncated
-                first_line = text.split("\n")[0].strip()
-                return f"message: {truncate(first_line, 50)}"
             return "message"
         
         # Exec - show command
@@ -385,11 +372,37 @@ class ProgressPrinter:
             self._item_line_open = True
             self._has_content = True
 
+    def _extract_message_text(self, item: Dict[str, Any]) -> Optional[str]:
+        """Extract full message text from item (codex/claude compatible)."""
+        item_type = item.get("type", "")
+        if item_type not in ("agent_message", "assistant_message", "message"):
+            return None
+        
+        text = item.get("text") or ""
+        if not text:
+            content = item.get("content")
+            if isinstance(content, list):
+                parts = []
+                for c in content:
+                    if isinstance(c, dict):
+                        t = c.get("text", "")
+                        if t:
+                            parts.append(t)
+                    elif isinstance(c, str):
+                        parts.append(c)
+                text = "".join(parts)
+            elif isinstance(content, str):
+                text = content
+        return text if text else None
+
     def _log_item_completed(self, payload: Dict[str, Any]) -> None:
         """Complete the current item line with result."""
         elapsed = self._format_elapsed()
         item = payload.get("item", {})
         summary = self._get_item_summary(item) if isinstance(item, dict) else "item"
+        
+        # Check if this is a message item - print full content
+        msg_text = self._extract_message_text(item) if isinstance(item, dict) else None
         
         with self._lock:
             if self._item_line_open:
@@ -402,6 +415,11 @@ class ProgressPrinter:
                     sys.stderr.write(f"\r\033[K[{elapsed}] ✓ {summary}\n")
                 else:
                     sys.stderr.write(f"[{elapsed}] ✓ {summary}\n")
+            
+            # Print full message content if available
+            if msg_text:
+                sys.stderr.write(f"[{elapsed}] ✓ message: {msg_text}\n")
+            
             sys.stderr.flush()
 
     def _log_turn_event(self, etype: str) -> None:
@@ -426,7 +444,7 @@ class ProgressPrinter:
             self._has_content = True
 
     def _log_claude_tool_use(self, payload: Dict[str, Any]) -> None:
-        """Handle Claude assistant events with tool_use in message.content."""
+        """Handle Claude assistant events with tool_use or text in message.content."""
         message = payload.get("message", {})
         content = message.get("content", [])
         if not isinstance(content, list):
@@ -435,10 +453,30 @@ class ProgressPrinter:
         for item in content:
             if not isinstance(item, dict):
                 continue
-            if item.get("type") != "tool_use":
+            
+            item_type = item.get("type", "")
+            elapsed = self._format_elapsed()
+            
+            # Handle text content - print full message
+            if item_type == "text":
+                text = item.get("text", "")
+                if text:
+                    with self._lock:
+                        if self._item_line_open:
+                            sys.stderr.write("\n")
+                            self._item_line_open = False
+                        if self._is_tty:
+                            sys.stderr.write(f"\r\033[K[{elapsed}] ✓ message: {text}\n")
+                        else:
+                            sys.stderr.write(f"[{elapsed}] ✓ message: {text}\n")
+                        sys.stderr.flush()
+                        self._has_content = True
                 continue
             
-            elapsed = self._format_elapsed()
+            # Handle tool_use
+            if item_type != "tool_use":
+                continue
+            
             name = item.get("name", "tool")
             inp = item.get("input", {})
             

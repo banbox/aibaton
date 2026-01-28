@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aibaton"
-version = "0.1.1"
+version = "0.1.2"
 description = "An agent automation framework based on Codex/Claude Code"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -15,3 +15,8 @@ dependencies = []
 
 [project.urls]
 Homepage = "https://github.com/banbox/aibaton"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
